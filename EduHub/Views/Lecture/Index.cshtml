@@ -1,0 +1,40 @@
+﻿@model List<EduHub.Models.Lecture>
+
+@{
+    ViewData["Title"] = "Список лекций";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    @if (User.Identity?.IsAuthenticated ?? false)
+    {
+        <a asp-action="Create">Создать новую лекцию</a>
+    }
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Дата загрузки</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var lecture in Model)
+        {
+            <tr>
+                <td>@lecture.Title</td>
+                <td>@lecture.UploadDate</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@lecture.Id">Детали</a>
+                    @if (User.Identity?.IsAuthenticated ?? false)
+                    {
+                        @: |  <a asp-action="Edit" asp-route-id="@lecture.Id">Редактировать</a>
+                        @: |  <a asp-action="Delete" asp-route-id="@lecture.Id">Удалить</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
